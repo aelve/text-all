@@ -4,6 +4,7 @@ module Data.Text.Lazy.All
   module Data.Text.Lazy.IO,
   module Data.Text.Lazy.Encoding,
   module Data.Text.Format,
+  module Data.Text.Buildable,
   show, show',
 )
 where
@@ -16,6 +17,7 @@ import Data.Text.Lazy.Encoding
 import TextShow
 
 import Data.Text.Format hiding (print, hprint)
+import Data.Text.Buildable (Buildable)
 import qualified Prelude as P
 import Prelude hiding (show)
 

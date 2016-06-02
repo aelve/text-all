@@ -4,6 +4,7 @@ module Data.Text.All
   module Data.Text.IO,
   module Data.Text.Encoding,
   module Data.Text.Format,
+  module Data.Text.Buildable,
   show, show',
   format,
   toStrict, fromStrict,
@@ -20,6 +21,7 @@ import TextShow
 
 import Data.Text.Format hiding (format, print, hprint)
 import Data.Text.Format.Params
+import Data.Text.Buildable (Buildable)
 import qualified Data.Text.Format as Format
 import qualified Prelude as P
 import Prelude hiding (show)
