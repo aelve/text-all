@@ -6,6 +6,7 @@ module Data.Text.Lazy.All
   module Data.Text.Format,
   module Data.Text.Buildable,
   show, show',
+  fromBuilder,
 )
 where
 
@@ -13,6 +14,7 @@ where
 import Data.Text.Lazy
 import Data.Text.Lazy.IO
 import Data.Text.Lazy.Encoding
+import Data.Text.Lazy.Builder
 
 import TextShow
 
@@ -29,3 +31,6 @@ show = showtl
 -- | Like 'show', but works for anything that has a 'Show' instance.
 show' :: Show a => a -> Text
 show' = pack . P.show
+
+fromBuilder :: Builder -> Text
+fromBuilder = toLazyText

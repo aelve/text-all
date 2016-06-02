@@ -8,6 +8,7 @@ module Data.Text.All
   show, show',
   format,
   toStrict, fromStrict,
+  fromBuilder,
 )
 where
 
@@ -35,6 +36,9 @@ show = showt
 show' :: Show a => a -> Text
 show' = pack . P.show
 
--- | A formatting function that mimics 'Data.Text.Format.format', but works on strict 'Text'.
+-- | A formatting function that mimics 'Data.Text.Format.format', but produces strict 'Text'.
 format :: Params ps => Format -> ps -> Text
 format f = toStrict . Format.format f
+
+fromBuilder :: Builder -> Text
+fromBuilder = toStrict . toLazyText
