@@ -1,11 +1,18 @@
 module Data.Text.Lazy.All
 (
+  -- * Standard modules from text
   module Data.Text.Lazy,
   module Data.Text.Lazy.IO,
   module Data.Text.Lazy.Encoding,
+
+  -- * Showing
+  show, show',
+
+  -- * Formatting
   module Data.Text.Format,
   module Data.Text.Buildable,
-  show, show',
+
+  -- * 'Builder'
   fromBuilder,
 )
 where

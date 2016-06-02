@@ -1,9 +1,14 @@
 module Data.Text.Builder.All
 (
+  -- * Standard modules from text
   module Data.Text.Lazy.Builder,
+
+  -- * Showing
+  show, show',
+
+  -- * Formatting
   module Data.Text.Format,
   module Data.Text.Buildable,
-  show, show',
   format,
 )
 where

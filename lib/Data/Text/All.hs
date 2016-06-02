@@ -1,13 +1,23 @@
 module Data.Text.All
 (
+  -- * Standard modules from text
   module Data.Text,
   module Data.Text.IO,
   module Data.Text.Encoding,
+
+  -- * Lazy text
+  toStrict, fromStrict,
+
+  -- * Showing
+  show, show',
+
+  -- * Formatting
   module Data.Text.Format,
   module Data.Text.Buildable,
-  show, show',
   format,
-  toStrict, fromStrict,
+
+  -- * 'Builder'
+  Builder,
   fromBuilder,
 )
 where
@@ -17,8 +27,9 @@ import Data.Text
 import Data.Text.IO
 import Data.Text.Encoding
 import Data.Text.Lazy (toStrict, fromStrict)
+import Data.Text.Lazy.Builder (Builder)
 
-import TextShow
+import TextShow hiding (Builder)
 
 import Data.Text.Format hiding (format, print, hprint)
 import Data.Text.Format.Params
