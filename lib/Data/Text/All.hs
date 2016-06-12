@@ -90,7 +90,24 @@ bshow' :: Show a => a -> Builder
 bshow' = B.fromString . P.show
 {-# INLINE bshow' #-}
 
--- | A variant of 'Data.Text.Format.format' that produces strict 'Text'.
+{- |
+A variant of 'Data.Text.Format.format' that produces strict 'Text'. Don't forget to enable @OverloadedStrings@ if you want to use it!
+
+>>> format "{}+{}={}" (2, 2, 4)
+"2+2=4"
+
+If you have only one argument, use a list:
+
+>>> format "2+2={}" [4]
+"2+2=4"
+
+There are some formatting options available:
+
+>>> format "123 = 0x{}, pi = {}" (hex 123, fixed 5 pi)
+"123 = 0x7b, pi = 3.14159"
+
+For more formatters, see "Data.Text.Format" (they are all reexported by "Data.Text.All").
+-}
 format :: Params ps => Format -> ps -> Text
 format f = TL.toStrict . Format.format f
 {-# INLINE format #-}
