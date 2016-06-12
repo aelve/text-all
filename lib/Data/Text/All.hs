@@ -4,6 +4,14 @@ TypeSynonymInstances
   #-}
 
 
+{- |
+Here are the nice things from text that you get (thanks to a restrictive lower bound) but that aren't documented elsewhere in this module:
+
+* The 'T.takeWhileEnd' function.
+* An instance for @Semigroup@.
+* An instance for @printf@ (i.e. you can use a 'Text' as one of @printf@'s arguments).
+* An instance for @Binary@.
+-}
 module Data.Text.All
 (
   -- * Standard modules from text
