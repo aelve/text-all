@@ -1,3 +1,7 @@
+# 0.3.0.0
+
+* Replaced functions like `strictToBuilder` with conversion typeclasses (i.e. now it's just `toStrict`, `toLazy`, and `toBuilder`).
+
 # 0.2.0.0
 
 * Renamed lots of functions, moved some into other modules.

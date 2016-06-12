@@ -1,5 +1,5 @@
 name:                text-all
-version:             0.2.0.0
+version:             0.3.0.0
 synopsis:            Everything Data.Text related in one package
 description:
   Everything @Data.Text@-related in one package.
