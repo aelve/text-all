@@ -1,6 +1,6 @@
 # 0.3.0.0
 
-* Replaced functions like `strictToBuilder` with conversion typeclasses (i.e. now it's just `toStrict`, `toLazy`, and `toBuilder`).
+* Replaced functions like `strictToBuilder` with conversion typeclasses (i.e. now it's just `toStrict`, `toLazy`, `toBuilder`, and `toString`).
 
 # 0.2.0.0
 

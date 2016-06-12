@@ -21,7 +21,7 @@ module Data.Text.All
   show', lshow', bshow',
 
   -- * Conversion
-  toStrict, toLazy, toBuilder,
+  toStrict, toLazy, toBuilder, toString,
 
   -- * Formatting
   module Data.Text.Format,
@@ -43,7 +43,7 @@ import Data.Text.Lazy.Builder (Builder)
 
 import qualified Data.Text.Lazy as TL
 
-import TextShow hiding (Builder)
+import TextShow hiding (Builder, toString)
 
 import Data.Text.Format hiding (format, print, hprint, build)
 import Data.Text.Format.Params
@@ -98,52 +98,56 @@ bformat = Format.build
 {-# INLINE bformat #-}
 
 class ToStrict t where
-  -- | Convert a 'String', lazy 'Text', or 'Builder' into a strict 'Text'.
-  toStrict :: t -> Text
-
+    -- | Convert a 'String', lazy 'Text', or 'Builder' into a strict 'Text'.
+    toStrict :: t -> Text
 instance (a ~ Char) => ToStrict [a] where
-  toStrict = pack
-  {-# INLINE toStrict #-}
-
+    toStrict = pack
+    {-# INLINE toStrict #-}
 instance ToStrict LText where
-  toStrict = TL.toStrict
-  {-# INLINE toStrict #-}
-
+    toStrict = TL.toStrict
+    {-# INLINE toStrict #-}
 instance ToStrict Builder where
-  toStrict = TL.toStrict . B.toLazyText
-  {-# INLINE toStrict #-}
+    toStrict = TL.toStrict . B.toLazyText
+    {-# INLINE toStrict #-}
 
 class ToLazy t where
-  -- | Convert a 'String', strict 'Text', or 'Builder' into a lazy 'Text'.
-  toLazy :: t -> LText
-
+    -- | Convert a 'String', strict 'Text', or 'Builder' into a lazy 'Text'.
+    toLazy :: t -> LText
 instance (a ~ Char) => ToLazy [a] where
-  toLazy = TL.pack
-  {-# INLINE toLazy #-}
-
+    toLazy = TL.pack
+    {-# INLINE toLazy #-}
 instance ToLazy Text where
-  toLazy = TL.fromStrict
-  {-# INLINE toLazy #-}
-
+    toLazy = TL.fromStrict
+    {-# INLINE toLazy #-}
 instance ToLazy Builder where
-  toLazy = B.toLazyText
-  {-# INLINE toLazy #-}
+    toLazy = B.toLazyText
+    {-# INLINE toLazy #-}
 
 class ToBuilder t where
-  -- | Convert a 'String', strict 'Text', or lazy 'Text' into a 'Builder'.
-  toBuilder :: t -> Builder
-
+    -- | Convert a 'String', strict 'Text', or lazy 'Text' into a 'Builder'.
+    toBuilder :: t -> Builder
 instance (a ~ Char) => ToBuilder [a] where
-  toBuilder = B.fromString
-  {-# INLINE toBuilder #-}
-
+    toBuilder = B.fromString
+    {-# INLINE toBuilder #-}
 instance ToBuilder Text where
-  toBuilder = B.fromText
-  {-# INLINE toBuilder #-}
-
+    toBuilder = B.fromText
+    {-# INLINE toBuilder #-}
 instance ToBuilder LText where
-  toBuilder = B.fromLazyText
-  {-# INLINE toBuilder #-}
+    toBuilder = B.fromLazyText
+    {-# INLINE toBuilder #-}
+
+class ToString t where
+    -- | Convert a strict 'Text', lazy 'Text', or 'Builder' into a 'String'.
+    toString :: t -> String
+instance ToString Text where
+    toString = unpack
+    {-# INLINE toString #-}
+instance ToString LText where
+    toString = TL.unpack
+    {-# INLINE toString #-}
+instance ToString Builder where
+    toString = TL.unpack . B.toLazyText
+    {-# INLINE toString #-}
 
 -- | A 'Builder' producing a single character.
 bsingleton :: Char -> Builder
