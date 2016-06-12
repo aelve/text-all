@@ -19,24 +19,31 @@ module Data.Text.All
   module Data.Text.IO,
   module Data.Text.Encoding,
 
-  -- * Types
+  -- * Lazy 'Text'
   LText,
-  Builder,
-
-  -- * Showing
-  show, lshow, bshow,
-  -- ** Via 'Show'
-  show', lshow', bshow',
 
   -- * Conversion
+  -- $conversion
   toStrict, toLazy, toBuilder, toString,
 
+  -- * Showing
+  -- $showing
+
+  -- ** Strict 'Text'
+  show, show',
+  -- ** Lazy 'Text'
+  lshow, lshow',
+  -- ** 'Builder'
+  bshow, bshow',
+
   -- * Formatting
+  -- $formatting
   module Data.Text.Format,
   module Data.Text.Buildable,
   format, lformat, bformat,
 
-  -- * Builder
+  -- * 'Builder'
+  Builder,
   bsingleton,
   flush,
 )
@@ -61,10 +68,15 @@ import qualified Prelude as P
 import Prelude hiding (show)
 
 
--- | Lazy 'TL.Text'.
 type LText = TL.Text
 
--- | A fast variant of 'show' for 'Text' that only works for some types. If you want more instances, import <https://hackage.haskell.org/package/text-show-instances text-show-instances> or use 'show'' if the type is your own and you only have a 'Show' instance defined.
+{- $showing
+
+'show' is a fast variant of @show@ for 'Text' \/ 'Builder' that only works for some types – it's very fast for 'Int', etc, but doesn't work for types that you have defined yourself. (If you want more instances, import <https://hackage.haskell.org/package/text-show-instances text-show-instances>.)
+
+'show'' is a shortcut for @pack.show@ that works for everything with a 'Show' instance but is slower.
+-}
+
 show :: TextShow a => a -> Text
 show = showt
 {-# INLINE show #-}
@@ -77,7 +89,6 @@ bshow :: TextShow a => a -> Builder
 bshow = showb
 {-# INLINE bshow #-}
 
--- | Like 'show', but works for anything that has a 'Show' instance. Slower than 'show'.
 show' :: Show a => a -> Text
 show' = pack . P.show
 {-# INLINE show' #-}
@@ -90,8 +101,9 @@ bshow' :: Show a => a -> Builder
 bshow' = B.fromString . P.show
 {-# INLINE bshow' #-}
 
-{- |
-A variant of 'Data.Text.Format.format' that produces strict 'Text'. Don't forget to enable @OverloadedStrings@ if you want to use it!
+{- $formatting
+
+'format' is a function similar to @printf@ in spirit. Don't forget to enable @OverloadedStrings@ if you want to use it!
 
 >>> format "{}+{}={}" (2, 2, 4)
 "2+2=4"
@@ -106,24 +118,26 @@ There are some formatting options available:
 >>> format "123 = 0x{}, pi = {}" (hex 123, fixed 5 pi)
 "123 = 0x7b, pi = 3.14159"
 
-For more formatters, see "Data.Text.Format" (they are all reexported by "Data.Text.All").
+For more formatters, see "Data.Text.Format".
 -}
+
 format :: Params ps => Format -> ps -> Text
 format f = TL.toStrict . Format.format f
 {-# INLINE format #-}
 
--- | A variant of 'Data.Text.Format.format' that produces lazy 'Text'.
 lformat :: Params ps => Format -> ps -> LText
 lformat = Format.format
 {-# INLINE lformat #-}
 
--- | A variant of 'Data.Text.Format.format' that produces a 'Builder'.
 bformat :: Params ps => Format -> ps -> Builder
 bformat = Format.build
 {-# INLINE bformat #-}
 
+{- $conversion
+These functions can convert from strict\/lazy 'Text', 'Builder', and 'String'.
+-}
+
 class ToStrict t where
-    -- | Convert a 'String', lazy 'Text', or 'Builder' into a strict 'Text'.
     toStrict :: t -> Text
 instance (a ~ Char) => ToStrict [a] where
     toStrict = pack
@@ -136,7 +150,6 @@ instance ToStrict Builder where
     {-# INLINE toStrict #-}
 
 class ToLazy t where
-    -- | Convert a 'String', strict 'Text', or 'Builder' into a lazy 'Text'.
     toLazy :: t -> LText
 instance (a ~ Char) => ToLazy [a] where
     toLazy = TL.pack
@@ -149,7 +162,6 @@ instance ToLazy Builder where
     {-# INLINE toLazy #-}
 
 class ToBuilder t where
-    -- | Convert a 'String', strict 'Text', or lazy 'Text' into a 'Builder'.
     toBuilder :: t -> Builder
 instance (a ~ Char) => ToBuilder [a] where
     toBuilder = B.fromString
@@ -162,7 +174,6 @@ instance ToBuilder LText where
     {-# INLINE toBuilder #-}
 
 class ToString t where
-    -- | Convert a strict 'Text', lazy 'Text', or 'Builder' into a 'String'.
     toString :: t -> String
 instance ToString Text where
     toString = unpack
