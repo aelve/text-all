@@ -1,3 +1,7 @@
+# 0.3.0.1
+
+* Bumped the text-show upper bound.
+
 # 0.3.0.0
 
 * Replaced functions like `strictToBuilder` with conversion typeclasses (i.e. now it's just `toStrict`, `toLazy`, `toBuilder`, and `toString`).
