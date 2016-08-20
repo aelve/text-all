@@ -1,3 +1,7 @@
+# 0.3.0.2
+
+* Bumped the text-show upper bound.
+
 # 0.3.0.1
 
 * Bumped the text-show upper bound.
