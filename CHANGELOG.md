@@ -3,6 +3,8 @@
 * Dropped `text-show` entirely; now `show` works via `Prelude.show`, which is
   slower but avoids a heavy dependency. It is recommended to use
   `text-format`, `formatting` or `fmt` if fast formatting is needed.
+  
+* Added `show` and `format` to `Data.Text.Lazy.All`.
 
 # 0.3.1.0
 
