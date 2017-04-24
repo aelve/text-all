@@ -1,16 +1,15 @@
-{-# LANGUAGE
-GADTs,
-TypeSynonymInstances
-  #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 
 
-{- |
-Here are the nice things from text that you get (thanks to a restrictive lower bound) but that aren't documented elsewhere in this module:
+{- | Note that thanks to a restrictive lower bound on @text@, you can be sure
+that the following things will be present in the "Data.Text" reexport:
 
 * The 'T.takeWhileEnd' function.
-* An instance for @Semigroup@.
-* An instance for @printf@ (i.e. you can use a 'Text' as one of @printf@'s arguments).
-* An instance for @Binary@.
+* An instance for @Semigroup Text@.
+* An instance for @Binary Text@.
+* An instance for 'Text.Printf.printf' (i.e. you can use a 'Text' as one of
+  @printf@'s arguments).
 -}
 module Data.Text.All
 (
@@ -28,13 +27,7 @@ module Data.Text.All
 
   -- * Showing
   -- $showing
-
-  -- ** Strict 'Text'
-  show, show',
-  -- ** Lazy 'Text'
-  lshow, lshow',
-  -- ** 'Builder'
-  bshow, bshow',
+  show, lshow, bshow,
 
   -- * Formatting
   -- $formatting
@@ -54,11 +47,9 @@ import Data.Text
 import Data.Text.IO
 import Data.Text.Encoding
 import qualified Data.Text.Lazy.Builder as B
-import Data.Text.Lazy.Builder (Builder)
+import Data.Text.Lazy.Builder (Builder, flush)
 
 import qualified Data.Text.Lazy as TL
-
-import TextShow hiding (Builder, toString)
 
 import Data.Text.Format hiding (format, print, hprint, build)
 import Data.Text.Format.Params
@@ -72,38 +63,27 @@ type LText = TL.Text
 
 {- $showing
 
-'show' is a fast variant of @show@ for 'Text' \/ 'Builder' that only works for some types – it's very fast for 'Int', etc, but doesn't work for types that you have defined yourself. (If you want more instances, import <https://hackage.haskell.org/package/text-show-instances text-show-instances>.)
-
-'show'' is a shortcut for @pack.show@ that works for everything with a 'Show' instance but is slower.
+Variants below use 'P.show' from "Prelude". If you want faster showing,
+either use <https://hackage.haskell.org/package/text-show text-show> or some
+formatting library.
 -}
 
-show :: TextShow a => a -> Text
-show = showt
+show :: Show a => a -> Text
+show = pack . P.show
 {-# INLINE show #-}
 
-lshow :: TextShow a => a -> LText
-lshow = showtl
+lshow :: Show a => a -> LText
+lshow = TL.pack . P.show
 {-# INLINE lshow #-}
 
-bshow :: TextShow a => a -> Builder
-bshow = showb
+bshow :: Show a => a -> Builder
+bshow = B.fromString . P.show
 {-# INLINE bshow #-}
-
-show' :: Show a => a -> Text
-show' = pack . P.show
-{-# INLINE show' #-}
-
-lshow' :: Show a => a -> LText
-lshow' = TL.pack . P.show
-{-# INLINE lshow' #-}
-
-bshow' :: Show a => a -> Builder
-bshow' = B.fromString . P.show
-{-# INLINE bshow' #-}
 
 {- $formatting
 
-'format' is a function similar to @printf@ in spirit. Don't forget to enable @OverloadedStrings@ if you want to use it!
+'format' is a function similar to @printf@ in spirit. Don't forget to enable
+@OverloadedStrings@ if you want to use it!
 
 >>> format "{}+{}={}" (2, 2, 4)
 "2+2=4"

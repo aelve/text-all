@@ -1,5 +1,5 @@
 name:                text-all
-version:             0.3.1.0
+version:             0.4.0.0
 synopsis:            Everything Data.Text related in one package
 description:
   Everything @Data.Text@-related in one package.
@@ -29,7 +29,6 @@ library
   -- other-extensions:    
   build-depends:       base >=4.5 && <5
                      , text ==1.2.2.*
-                     , text-show >=3.2 && <3.7
                      , text-format ==0.3.1.*
   ghc-options:         -Wall -fno-warn-unused-do-bind
   hs-source-dirs:      lib
