@@ -1,3 +1,10 @@
+# 0.4.1.0
+
+* Now `toString` and other functions work with `ByteString` as well. Lenient
+  UTF-8 decoding is used.
+
+* Added `toByteString` and `toLByteString`.
+
 # 0.4.0.0
 
 * Dropped `text-show` entirely; now `show` works via `Prelude.show`, which is
