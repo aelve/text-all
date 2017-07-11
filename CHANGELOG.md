@@ -1,3 +1,8 @@
+# 0.4.1.1
+
+* Dropped compatibility with GHC 7.4.2 and added a lower bound for
+  `bytestring`.
+
 # 0.4.1.0
 
 * Now `toString` and other functions work with `ByteString` as well. Lenient
