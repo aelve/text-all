@@ -1,3 +1,7 @@
+# 0.4.2
+
+* Bumped `text`.
+
 # 0.4.1.1
 
 * Dropped compatibility with GHC 7.4.2 and added a lower bound for
